@@ -26,7 +26,8 @@ SECRET_KEY = 'j69v8zj6m1wi4@+u49-cpn#n2sh*bfhaew^b#!pozk%&145h&&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['walbook2app.herokuapp.com']
+
 
 
 # Application definition
