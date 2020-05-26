@@ -1,0 +1,45 @@
+{% extends 'budget_tracker/base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block body_block %}
+{#<div class="container">#}
+{# </div>#}
+{#    <div class="container">#}
+{#  <div class="row">#}
+{#      <div class="col" >#}
+{##}
+{#     </div>#}
+{##}
+{#    <div class="col" style="margin-left: 4em; background-image: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v748-toon-106_1_1.jpg?w=800&dpr=1&fit=default&crop=default&auto=format&fm=pjpg&q=75&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=a1cc5c34ed3a65c0b481077012537848')">#}
+{#        <h3 class="center">Create an account</h3>#}
+{##}
+{##}
+{#<form method='post' action = '{% url "SignUp" %}'>#}
+{##}
+{#    {% csrf_token %}#}
+{#    {{ form1.as_p }}#}
+{#    {{ form2.as_p }}#}
+{#    <p>Login to continue</p>#}
+{#    <button class='btn waves-effect' type="submit">Register</button>#}
+{#    <button class='btn waves-effect' onclick="window.location.href = '{% url 'Login' %}';">Login</button>#}
+
+
+{#</form>#}
+{##}
+{#       </div>#}
+{#      </div>#}
+{#</div>#}
+    <div class="container" style="margin-left: 28em">
+        <form method='post' action = '{% url "SignUp" %}'>
+
+        {% csrf_token %}
+        {{ form1.as_p }}
+        {{ form2.as_p }}
+            <p><small>Already have an account? Login to continue</small></p>
+        <button class="btn btn-primary" type="submit">Register</button>
+        <button class="btn btn-primary" onclick="window.location.href = '{% url 'Login' %}';">Login</button>
+
+    </div>
+
+
+{% endblock %}

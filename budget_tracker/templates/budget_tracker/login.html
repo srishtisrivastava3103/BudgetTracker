@@ -1,0 +1,26 @@
+{% extends 'budget_tracker/base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block body_block %}
+
+<h2 style="margin-left: 14em">Welcome Back!</h2>
+
+
+<form method="post" action="{% url 'Login' %}" style="margin-left: 28em ; margin-top: 4em">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <p><label for="username">Username:</label>
+              <input type="text" name="username" placeholder="Username"></p>
+<p style="margin-bottom: 2em"><label for="password">Password:</label>
+    <input type="password" name="password" placeholder="Password"></p>
+
+    <p ><small>New User?</small>
+
+
+        <button class="btn btn-primary"  onclick="window.location.href = '{% url 'SignUp' %}';">SignUp</button>
+    <button class="btn btn-primary" >Login</button>
+</p>
+</form>
+
+{% endblock %}
+

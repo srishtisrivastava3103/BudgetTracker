@@ -1,0 +1,41 @@
+{% extends 'budget_tracker/base.html' %}
+{% block title %}Your Expenses{% endblock %}
+
+{% block body_block %}
+   <h3 style="margin-left: 20em; margin-bottom: 1.5em">Welcome {{ username }}</h3>
+    <div class="container">
+        <form action="{% url "UserExpenses" %}" method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <button class="btn btn-primary" type="submit" style="margin-left: 1em">Submit</button>
+
+
+</form>
+    </div>
+    <div class="container" >
+    <div class="modal-body row">
+  <div class="col-md-6">
+    <!-- Your first column here -->
+      <table style="margin-top:5em">
+            <th>EXPENSE</th>
+            <th>AMOUNT</th>
+            <th>DATE</th>
+            {% for name,amt,date in expense_list %}
+                <tr style="padding-top: 20px">
+                <td style="padding-right:40px">{{ name }}</td>
+                <td style="padding-right:100px; padding-left: 20px" >{{ amt }}</td>
+                <td>{{ date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+  </div>
+  <div class="col-md-6">
+    <!-- Your second column here -->
+      <img src="static/Plot.png" style="width:430px;height:300px;margin-top:2em"/>
+  </div>
+</div>
+
+
+    </div>
+
+{% endblock %}
