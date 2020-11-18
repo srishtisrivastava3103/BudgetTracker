@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from budget_tracker.models import User, account, Expense,Food, Bill,Travel,Entertainment,Misc
+from budget_tracker.models import User, Expense,Food, Bill,Travel,Entertainment,Misc
 import matplotlib.pyplot as plt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +8,7 @@ from django.db import connection
 import os
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from budget_tracker.forms import SignUpForm, AccountForm, ExpenseForm
+from budget_tracker.forms import SignUpForm, ExpenseForm
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
 
 # Create your views here.
@@ -32,17 +32,14 @@ def HomeView(request):
 def SignupView(request):
     if request.method == "POST":
         form1 = SignUpForm(request.POST)
-        form2 = AccountForm(request.POST)
 
-        if form1.is_valid() and form2.is_valid():
+        if form1.is_valid():
             form1.save()
-            form2.save()
 
-            return render(request, 'budget_tracker/login.html', {'form1': form1, 'form2': form2})
+            return render(request, 'budget_tracker/login.html', {'form1': form1})
     else:
         form1 = SignUpForm
-        form2 = AccountForm
-        return render(request, 'budget_tracker/signup.html', {'form1': form1, 'form2': form2})
+        return render(request, 'budget_tracker/signup.html', {'form1': form1})
     return HttpResponseRedirect(reverse('Login'))
 
 

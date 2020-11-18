@@ -14,15 +14,6 @@ class User(models.Model):
         return self.username
 
 
-class account(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
-    accno = models.IntegerField(unique=True, null=False, blank=False)
-    bank = models.CharField(unique=True, null=False, blank=False, max_length=200)
-    balance = models.DecimalField(blank=False, max_digits=20, decimal_places=2)
-
-    def __str__(self):
-        return (self.user.username)
-
 
 class Expense(models.Model):
     expense_id = models.AutoField(primary_key=True)

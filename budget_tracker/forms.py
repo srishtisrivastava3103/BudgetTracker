@@ -1,5 +1,5 @@
 from django import forms
-from budget_tracker.models import User, account, Expense, Food, Bill, Entertainment, Travel, Misc
+from budget_tracker.models import User, Expense, Food, Bill, Entertainment, Travel, Misc
 
 
 class SignUpForm(forms.ModelForm):
@@ -10,10 +10,6 @@ class SignUpForm(forms.ModelForm):
             'password': forms.PasswordInput()}
 
 
-class AccountForm(forms.ModelForm):
-    class Meta:
-        model = account
-        fields = ('accno', 'bank', 'balance')
 
 class DateInput(forms.DateInput):
     input_type = 'date'
