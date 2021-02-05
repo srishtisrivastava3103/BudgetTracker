@@ -1,14 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from budget_tracker.models import User, Expense,Food, Bill,Travel,Entertainment,Misc
+from budget_tracker.models import User, Expense,Food, Bill,Travel,Entertainment,Misc, Post, Assets,Liability
 import matplotlib.pyplot as plt
+from django.views import generic
+from .models import Post
+
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.db import connection
 import os
+from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from budget_tracker.forms import SignUpForm, ExpenseForm
+from budget_tracker.forms import SignUpForm, ExpenseForm, NewPostForm, AssetForm, LiabilityForm
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
 
 # Create your views here.
@@ -233,3 +238,96 @@ def User_Expense_View(request):
     else:
         form = ExpenseForm
         return render(request, 'budget_tracker/user_expense_page.html', {'form': form, 'username': g_username,'expense_list':expense_list})
+
+def NewPost(request):
+    global g_username
+
+    if request.method == "POST":
+        form = NewPostForm(request.POST)
+
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            for i in User.objects.all():
+                if str(i.username) == str(g_username):
+
+                    obj = Post(author=i, title=title, content=content, created_on=timezone.now())
+                    obj.save()
+
+            return render(request, 'budget_tracker/new_post.html', {'form': form})
+    else:
+        form = NewPostForm
+        return render(request, 'budget_tracker/new_post.html', {'form': form})
+
+    return render(request, 'budget_tracker/new_post.html',
+                  {'form': NewPostForm})
+
+class PostList(generic.ListView):
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    template_name = 'post_list.html'
+
+class PostDetail(generic.DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+
+def CashflowView(request):
+    global g_username
+    amt = 0
+    message = "Cashflow Positive"
+    assets_list=[]
+    liability_list=[]
+
+
+    for i in Assets.objects.all():
+        if str(i.user) == str(g_username):
+            amt += i.amount
+            assets_list+=[i]
+    for i in Liability.objects.all():
+        if str(i.user) == str(g_username):
+            amt -= i.amount
+            liability_list+=[i]
+    if amt <= 0:
+        message = "Cashflow Negative"
+
+
+    if request.method == "POST":
+        if 'Asset' in request.POST:
+            form1 = AssetForm(request.POST)
+
+            if form1.is_valid():
+
+                amount = int(form1.cleaned_data['amount'])
+                asset = form1.cleaned_data['asset']
+
+                for i in User.objects.all():
+                    if i.username == g_username:
+                        obj = Assets(user=i, amount=amount, asset=asset)
+                        obj.save()
+
+        else:
+
+            form2 = LiabilityForm(request.POST)
+            if form2.is_valid():
+
+                amount = int(form2.cleaned_data['amount'])
+                liability = form2.cleaned_data['liability']
+
+                for i in User.objects.all():
+                    if i.username == g_username:
+                        obj = Liability(user=i, amount=amount, liability=liability)
+                        obj.save()
+            message = "Cashflow Positive"
+            if amount<=0:
+                message = "Cashflow Negative"
+
+
+    return render(request, 'budget_tracker/cashflow_management.html',
+                  {'form1': AssetForm,'form2':LiabilityForm, 'username': g_username, 'asset_list': assets_list,
+                   'liability_list':liability_list, 'amount':amt, 'message':message})
+
+
+
+
+
+
+

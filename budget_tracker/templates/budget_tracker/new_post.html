@@ -1,0 +1,15 @@
+{% extends 'budget_tracker/base.html' %}
+{% block title %}Home{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block body_block %}
+  <div class="container" style="margin-left: 12em">
+        <form method='POST' action = '{% url "NewPost" %}'>
+
+        {% csrf_token %}
+        {{ form|crispy}}
+        <button class="btn btn-primary" type="submit">Create Post</button>
+        </form>
+
+    </div>
+{% endblock %}

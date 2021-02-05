@@ -1,5 +1,5 @@
 from django import forms
-from budget_tracker.models import User, Expense, Food, Bill, Entertainment, Travel, Misc
+from budget_tracker.models import User, Expense, Food, Bill, Entertainment, Travel, Misc, Post, Assets, Liability
 
 
 class SignUpForm(forms.ModelForm):
@@ -37,5 +37,24 @@ class ExpenseForm(ExpenseModelForm):
     class Meta(ExpenseModelForm.Meta):
         fields = ExpenseModelForm.Meta.fields + ('Category',)
         widgets = {"date": DateInput()}
+
+class NewPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title','slug','content','content','status')
+        widgets = {
+            'content': forms.Textarea(),
+
+        }
+class AssetForm(forms.ModelForm):
+    class Meta:
+        model = Assets
+        fields = ('asset', 'amount')
+
+class LiabilityForm(forms.ModelForm):
+    class Meta:
+        model = Liability
+        fields = ('liability', 'amount')
+
 
 

@@ -2,7 +2,9 @@
 {% block title %}Your Expenses{% endblock %}
 
 {% block body_block %}
-   <h3 style="margin-left: 20em; margin-bottom: 1.5em">Welcome {{ username }}</h3>
+    <button class="btn btn-primary"  style="float:right" onclick="window.location.href='{% url "NewPost" %}'">New Post</button>
+    <h3 style="margin-left: 20em; margin-bottom: 1.5em">Welcome {{ username }}</h3>
+
     <div class="container">
         <form action="{% url "UserExpenses" %}" method="post">
     {% csrf_token %}

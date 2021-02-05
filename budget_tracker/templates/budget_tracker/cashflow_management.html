@@ -1,0 +1,60 @@
+{% extends 'budget_tracker/base.html' %}
+{% block title %}Your Expenses{% endblock %}
+
+{% block body_block %}
+    <h3 style="margin-left: 20em; margin-bottom: 1.5em">Welcome {{ username }}</h3>
+
+    <div class="container">
+    <div class="modal-body row">
+  <div class="col-md-8">
+        <form action="{% url "cashflow_management" %}" method="post" style="float: left">
+    {% csrf_token %}
+    {{ form1.as_p }}
+    <button class="btn btn-primary" type="submit" name="Asset" >Add Asset</button>
+        </form>
+  </div>
+    <div class="col-md-4">
+
+        <form action="{% url "cashflow_management" %}" method="post" >
+    {% csrf_token %}
+    {{ form2.as_p }}
+    <button class="btn btn-primary" type="submit" name="Liability" >Add Liability</button>
+        </form>
+    </div>
+    </div>
+    <h4 style="margin-left: 16em">{{ message }} By {{ amount }}</h4>
+    <div class="container" >
+    <div class="modal-body row">
+  <div class="col-md-8">
+    <!-- Your first column here -->
+      <table>
+            <th style="padding-right: 40px">ASSET</th>
+            <th>AMOUNT</th>
+            {% for i in asset_list %}
+                <tr style="padding-top: 20px">
+                <td style="padding-right:40px">{{ i.asset }}</td>
+                <td style="padding-right:100px; padding-left: 20px" >{{ i.amount }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+  </div>
+  <div class="col-md-4">
+      <table >
+            <th style="padding-right: 40px">LIABILITY</th>
+            <th>AMOUNT</th>
+            {% for j in liability_list %}
+                <tr style="padding-top: 20px">
+                <td style="padding-right:40px">{{ j.liability }}</td>
+                <td style="padding-right:100px; padding-left: 20px" >-{{ j.amount }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    <!-- Your second column here -->
+{#      <img src="static/Plot.png" style="width:430px;height:300px;margin-top:2em"/>#}
+  </div>
+</div>
+
+
+    </div>
+
+{% endblock %}
