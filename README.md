@@ -10,3 +10,5 @@ Home Page:
 ![sample](https://i.imgur.com/pDO9RMe.png)
 
 ![sample](https://i.imgur.com/SVwayu4.png)
+
+Deployed on Python Anywhere: http://srishtisrivastava3103.pythonanywhere.com/
